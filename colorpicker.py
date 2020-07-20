@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import os
+import re
 from sys import platform
 import pyautogui
 import pyperclip
@@ -29,6 +31,12 @@ def preview_color():
     pyautogui.displayMousePosition()
 
 
+def cleanup():
+    for f in os.listdir('.'):
+        if re.search(r'\.screenshot.*\.png', f):
+            os.remove(os.path.join('.', f))
+
+
 def main():
     assert platform == 'linux'
     listener = mouse.Listener(
@@ -36,6 +44,7 @@ def main():
     listener.start()
     print('Click to copy the current color to the clipboard.')
     preview_color()
+    cleanup()
 
 
 if __name__ == "__main__":
